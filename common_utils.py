@@ -9,7 +9,7 @@ class InteractionDataset(Dataset):
         self.interactions = interactions
 
     def __len__(self):
-        return len(self.users)
+        return len(self.interactions)
 
     def __getitem__(self, index):
         user = self.users[index]

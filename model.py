@@ -90,5 +90,5 @@ class RecommenderNet(nn.Module):
             og_item_embedding = torch.cat((og_item_embedding, item_embedding),
                                           dim=1)
 
-        return torch.matmul(torch.transpose(og_user_embedding, 0, 1),
-                            og_item_embedding)
+        return torch.sum(og_user_embedding * og_item_embedding, dim=1,
+                         keepdim=True)

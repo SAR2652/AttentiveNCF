@@ -30,7 +30,7 @@ def get_arguments():
                         type=int, default=64)
     parser.add_argument('--batch_size',
                         help='Batch Size for Model Training',
-                        type=int, default=256)
+                        type=int, default=64)
     parser.add_argument('--learning_rate',
                         help='Learning rate for model training',
                         type=float, default='1e-4')
@@ -189,11 +189,14 @@ def train_model(args):
     for epoch in range(epochs):
         model.train()
         batch_losses = list()
+        total = 0
 
         for i, batch in enumerate(train_dataloader):
             users = batch['user'].to(device)
             items = batch['item'].to(device)
-            y_true = batch['interaction'].to(device)
+            y_true = batch['interaction']
+            total += y_true.size()
+            y_true = y_true.to(device)
 
             optimizer.zero_grad()
 
@@ -206,6 +209,7 @@ def train_model(args):
             optimizer.step()
 
             batch_losses.append(loss.item())
+            print(f"{total}/{X_train.shape[0]} samples processed")
 
         epoch_loss = np.mean(batch_losses)
 
