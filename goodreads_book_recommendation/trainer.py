@@ -107,6 +107,8 @@ def get_predictions(model, device: torch.device, dataloader, return_gt=False):
 
 def train_model(args):
     data_dir = args.data_dir
+    output_dir = args.output_dir
+    os.makedirs(output_dir, exist_ok=True)
     random_state = args.random_state
     embed_dim = args.embedding_dim
     batch_size = args.batch_size
@@ -182,6 +184,8 @@ def train_model(args):
             print('Invalid choice of optimizer!')
             sys.exit(1)
 
+    best_val_acc = -np.inf
+
     for epoch in range(epochs):
         model.train()
         batch_losses = list()
@@ -207,13 +211,36 @@ def train_model(args):
 
         y_pred_train = get_predictions(model, device, train_dataloader)
         y_pred_val = get_predictions(model, device, val_dataloader)
+        y_pred_test = get_predictions(model, device, test_dataloader)
 
         train_acc = accuracy_score(y_train, y_pred_train) * 100
         val_acc = accuracy_score(y_validation, y_pred_val) * 100
+        test_acc = accuracy_score(y_test, y_pred_test) * 100
 
         print(f"Epoch {epoch + 1}: Loss = {epoch_loss:.4f} "
               f"Training Accuracy = {train_acc:.1f}%, "
-              f"Validation Accuracy = {val_acc:.1f}%")
+              f"Validation Accuracy = {val_acc:.1f}%, "
+              f"Test Accuracy = {test_acc:.1f}%")
+
+        if val_acc > best_val_acc:
+            best_val_acc = val_acc
+
+            test_precision = precision_score(y_test, y_pred_test) * 100
+            test_recall = recall_score(y_test, y_pred_test) * 100
+            test_f1_score = f1_score(y_test, y_pred_test) * 100
+
+            state = {
+                'val_accuracy': best_val_acc,
+                'train_accuracy': train_acc,
+                'test_accuracy': test_acc,
+                'test_f1_score': test_f1_score,
+                'test_precision': test_precision,
+                'test_recall': test_recall,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict()
+            }
+
+            torch.save(state, os.path.join(output_dir, 'best_model.pth'))
 
     y_pred_test = get_predictions(model, device, test_dataloader)
 
