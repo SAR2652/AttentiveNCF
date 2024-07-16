@@ -1,0 +1,28 @@
+name: torch_latest_env
+channels:
+  - pytorch
+  - esri
+  - conda-forge
+dependencies:
+  - python=3.11.9
+  - django=5.0.6
+  - djangorestframework=3.15.2
+  - einops=0.7.0
+  - flask=3.0.3
+  - flask-restful=0.3.10
+  - imbalanced-learn=0.12.2
+  - jupyter_client=8.6.2
+  - jupyter_core=5.7.2
+  - matplotlib-base=3.9.0
+  - matplotlib-inline=0.1.7
+  - more-itertools=10.3.0
+  - neurokit2=0.2.7
+  - numpy=1.26.4
+  - pandas=2.2.2
+  - pytest=8.2.0
+  - pytorch
+  - scikit-learn=1.5.1
+  - scipy=1.11.3
+  - seaborn=0.13.2
+  - seaborn-base=0.13.2
+  - statsmodels=0.14.2
