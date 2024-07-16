@@ -5,8 +5,7 @@ import pandas as pd
 from joblib import load
 from itertools import product
 from more_itertools import ichunked
-# from scipy.sparse import coo_matrix, save_npz
-from common_utils import remove_book_outliers
+from goodreads_book_recommendation.utils import remove_book_outliers
 
 
 def get_arguments():

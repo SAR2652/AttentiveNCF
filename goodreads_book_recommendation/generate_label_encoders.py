@@ -2,8 +2,8 @@ import os
 import argparse
 import pandas as pd
 from joblib import dump
-from common_utils import remove_book_outliers
 from sklearn.preprocessing import LabelEncoder
+from goodreads_book_recommendation.utils import remove_book_outliers
 
 
 def get_arguments():

@@ -9,9 +9,9 @@ import torch.nn.functional as F
 from model import RecommenderNet
 from torch.optim import Adam, SGD
 from torch.utils.data import DataLoader
+from common_utils import InteractionDataset
 from sklearn.metrics import accuracy_score, f1_score, \
     precision_score, recall_score
-from common_utils import InteractionDataset
 
 
 def get_arguments():
