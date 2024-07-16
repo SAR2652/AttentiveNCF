@@ -195,7 +195,7 @@ def train_model(args):
             users = batch['user'].to(device)
             items = batch['item'].to(device)
             y_true = batch['interaction']
-            total += y_true.size().item()
+            total += y_true.size(0)
             y_true = y_true.to(device)
 
             optimizer.zero_grad()
